@@ -1,10 +1,12 @@
 package com.chagvv.myhome.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,9 +31,22 @@ public class BoardController {
 	private BoardValidator boardValidatory;
 	
 	@GetMapping("/list")
-	public String list(Model  model) {
+	public String list(Model  model,@PageableDefault(page = 0,size = 5) Pageable pageable,@RequestParam(required = false,defaultValue = "") String searchText) {
 		
-		List<Board> boards = boardRepository.findAll();
+		int pageNumberSize=4;
+	
+		//List<Board> boards = boardRepository.findAll();
+		
+		//Page<Board> boards = boardRepository.findAll(PageRequest.of(0, 20));
+		//Page<Board> boards = boardRepository.findAll(pageable);
+		Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
+		int page = pageable.getPageNumber();
+		int startPage = (page/pageNumberSize)*pageNumberSize+1;
+
+		//int startPage = Math.max(1, pageable.getPageNumber() - pageNumberSize);
+		int endPage = Math.min(boards.getTotalPages(),startPage+pageNumberSize-1);
+		model.addAttribute("startPage",startPage);
+		model.addAttribute("endPage",endPage);
 		model.addAttribute("boards", boards);
 		return "board/list";
 	}
