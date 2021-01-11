@@ -35,6 +35,8 @@ public class BoardController {
 	public String list(Model  model,@PageableDefault(page = 0,size = 5) Pageable pageable,@RequestParam(required = false,defaultValue = "") String searchText) {
 		
 		int pageNumberSize=4;
+		
+		log.debug("");
 	
 		//List<Board> boards = boardRepository.findAll();
 		
