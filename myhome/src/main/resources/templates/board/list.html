@@ -65,7 +65,7 @@
 					<th scope="row" th:text="${board.id}">1</th>
 					<td><a th:text="${board.title}"
 						th:href="@{/board/form(id=${board.id})}">Mark</a></td>
-					<td>홍길동</td>
+					<td th:text="${board.user.username}">홍길동</td>
 				</tr>
 			</tbody>
 		</table>

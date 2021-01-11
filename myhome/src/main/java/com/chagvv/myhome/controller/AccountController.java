@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.chagvv.myhome.model.User;
 import com.chagvv.myhome.service.UserService;
 
+import lombok.AllArgsConstructor;
+
 @Controller
+@AllArgsConstructor
 @RequestMapping("/account")
 public class AccountController {
 	
 	private UserService userService;
-	
-	public AccountController(UserService userService) {
-		this.userService = userService;
-	}
 
 	@GetMapping("/login")
 	public String login() {

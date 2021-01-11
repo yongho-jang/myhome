@@ -2,33 +2,34 @@ package com.chagvv.myhome.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.chagvv.myhome.model.Board;
 import com.chagvv.myhome.repository.BoardRepository;
+import com.chagvv.myhome.service.BoardService;
 import com.chagvv.myhome.validator.BoardValidator;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@AllArgsConstructor
+@Slf4j
 @RequestMapping("/board")
 public class BoardController {
 	
-	@Autowired
 	private BoardRepository boardRepository;
-	
-	@Autowired
 	private BoardValidator boardValidatory;
+	private BoardService boardService;
 	
 	@GetMapping("/list")
 	public String list(Model  model,@PageableDefault(page = 0,size = 5) Pageable pageable,@RequestParam(required = false,defaultValue = "") String searchText) {
@@ -72,7 +73,8 @@ public class BoardController {
 			return "board/form";
 		}
 		
-		boardRepository.save(board);
+		boardService.save(board);
+		
 		return "redirect:/board/list";
 	}
 }

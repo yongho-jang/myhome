@@ -16,16 +16,14 @@ import org.thymeleaf.util.StringUtils;
 import com.chagvv.myhome.model.Board;
 import com.chagvv.myhome.repository.BoardRepository;
 
+import lombok.AllArgsConstructor;
+
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api")
 class BoardApiController {
 
   private final BoardRepository repository;
-
-  BoardApiController(BoardRepository repository) {
-    this.repository = repository;
-  }
-
 
   // Aggregate root
   // tag::get-aggregate-root[]
